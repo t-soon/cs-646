@@ -20,7 +20,6 @@ int main()
 	    char *input = NULL;          //for storing the user input
         printf("exampleShelltsoon$ ");
         scanf("%m[^\n]", &input); //reads the string into input
-        //printf("%s", input);
         char *parsedInput[20];
         //pass input to parseInput
         int last = parseInput(input, parsedInput);
@@ -29,7 +28,6 @@ int main()
         /* code */
         if (strcmp ("exit", parsedInput[0]) == 0) //command is exit
         {
-            //this one works!
             return 0; //return from main
         }
         else if (strcmp ("cd", parsedInput[0]) == 0) //command is change directories
@@ -43,9 +41,6 @@ int main()
             if (success == 1)
             {
                 printf("execvp failure");
-            }
-            else{
-                printf("not failure");
             }
             
         }
