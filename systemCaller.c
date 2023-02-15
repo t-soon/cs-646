@@ -14,7 +14,7 @@ int executeCommand(char *command[]);
 
 int main()
 {
-    int test = 0;
+
     while (1)
     {
 	    char *input = NULL;          //for storing the user input
@@ -36,15 +36,13 @@ int main()
         }
         else //use execvp
         {
-            int success;
-            success = executeCommand(parsedInput);
+            int success = executeCommand(parsedInput);
             if (success == 1)
             {
                 printf("execvp failure");
             }
             
         }
-        test++;
     }
 	return 0;
 }
@@ -60,15 +58,18 @@ int executeCommand(char *command[])
             /* fork failed */
             printf("fork failed!");
         } else {
-            /*do child*/
-            int exeOutput = execvp(command[0], command);
-            if (exeOutput == -1)
+            /*do process*/
+            if (execvp(command[0], command) == -1)
             {
                 //the process failed; only returns if error
                 return 1;
+            } else {
+
+                return 0;
             }
             wait(&status);
         }
+        idx ++;
     }
 }
 
