@@ -41,6 +41,7 @@ int main()
             {
                 printf("execvp failure");
             }
+
             
         }
     }
@@ -51,26 +52,20 @@ int executeCommand(char *command[])
 {
 	/*code */
     int status;
-    int idx = 1;
-    while (command[idx] != NULL) {
-        if (fork() == -1)
-        {
-            /* fork failed */
-            printf("fork failed!");
-        } else {
-            /*do process*/
-            if (execvp(command[0], command) == -1)
-            {
-                //the process failed; only returns if error
-                return 1;
-            } else {
-
-                return 0;
-            }
-            wait(&status);
+    int exeOutcome;
+    if (fork() == 0)
+    {
+        /* fork succeeded */
+         exeOutcome = execvp(command[0], command);
+        if (exeOutcome == -1){
+            return 0;
         }
-        idx ++;
+    } else {
+        /*fork failed*/
+        printf("fork failed");
+        wait(&status);    
     }
+    
 }
 
 void changeDirectories(char *inputPath)
