@@ -14,17 +14,14 @@ int executeCommand(char *command[]);
 
 int main()
 {
-
     while (1)
     {
 	    char *input = NULL;          //for storing the user input
         printf("exampleShelltsoon$ ");
-        scanf("%m[^\n]", &input); //reads the string into input
+        scanf(" %m[^\n]", &input); //reads the string into input; space first to account for \n from input
         char *parsedInput[20];
-        //pass input to parseInput
-        int last = parseInput(input, parsedInput);
-        //Add NULL as last string in array <-- hmmm
-        parsedInput[last] = NULL;
+        int last = parseInput(input, parsedInput);         //pass input to parseInput
+        parsedInput[last] = NULL;         //Add NULL as "last" string in array
         /* code */
         if (strcmp ("exit", parsedInput[0]) == 0) //command is exit
         {
@@ -41,8 +38,6 @@ int main()
             {
                 printf("execvp failure");
             }
-
-            
         }
     }
 	return 0;
@@ -53,17 +48,17 @@ int executeCommand(char *command[])
 	/*code */
     int status;
     int exeOutcome;
-    if (fork() == 0)
+    
+    if (fork() != 0)
     {
+        wait(&status);  
+    }
+    else {
         /* fork succeeded */
-         exeOutcome = execvp(command[0], command);
+        exeOutcome = execvp(command[0], command);
         if (exeOutcome == -1){
-            return 0;
+            return 1;
         }
-    } else {
-        /*fork failed*/
-        printf("fork failed");
-        wait(&status);    
     }
     
 }
@@ -74,8 +69,6 @@ void changeDirectories(char *inputPath)
     int success = chdir(inputPath);
 	if(success == -1 ){
         printf("Path Not Found! \n");
-    } else {
-        printf("complete \n");
     }
 }
 
